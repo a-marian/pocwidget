@@ -1,0 +1,34 @@
+akamai
+
+This is true and thus -> Esto es verdad y por lo tanto
+This is a response and thus give its by done
+
+ def simple = { attrs, body ->      
+      out << body() << attrs.happy == 'true' ? ":-)" : ":-("   
+  } 
+  
+  -------------------------------------
+  <iframe src="//player.vimeo.com/video/97356262" width="500" height="281" frameborder="0" 
+  webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
+  <p><a href="http://vimeo.com/97356262">My Mom's Motorcycle: My Rode Reel</a> from <a href="http://vimeo.com/user12301581">Douglas Gautraud</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+  
+  
+  SPRI(NT 1
+  Como administrador quiero:
+		+ cambiar la apariencia de mi sitio
+		   + elijo entre dos opciones de template el frontend del sitio
+		+sumar un widget para mostrar un video desde youtube
+		  +primero debo ver en preview 
+		  +publicar en web si estoy de  acuerdo como se ve en preview
+		
+		
+  
+  widget
+  video
+  youtube
+  preview
+  web
+  administrador
+  
+  
+  
