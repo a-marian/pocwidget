@@ -14,7 +14,7 @@ class Template {
     String name
     Boolean enabled
    
-    
+    PreviewTemplate previewTemplate
     
     static hasMany = [widgets:Widget]
 	

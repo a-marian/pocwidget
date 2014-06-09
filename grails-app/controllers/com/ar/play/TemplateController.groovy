@@ -1,5 +1,7 @@
 package com.ar.play
 
+
+
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
@@ -9,51 +11,19 @@ class TemplateController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index() {
-        def videoWidget= new Video()
-      def templateInstance = Template.findByEnabled(true)      
-      if (templateInstance != null){
-        // widgetVideo = Widget.findByType('video')
-           templateInstance.widgets?.each{ widget ->
-			   println "user" +  widget
-			   if(widget.type == "video"){
-                               videoWidget = widget
-                               println "plataforma" + videoWidget.platform
-                           }                           
-            }
-          
-          //def widget =  ? Book.findAllByAuthor(author) : []
-          println "template" + templateInstance.name
-          
-      }
-      render ( model:[templateInstance:templateInstance, videoWidget:videoWidget], view:"index" )
+        def templateInstance = Template.findByEnabled(true)
+        if(templateInstance){
+             respond templateInstance
+        }
+       
+       }
+    
+    def list(Integer max){
+           params.max = Math.min(max ?: 10, 100)
+        respond Template.list(params), model:[templateInstanceCount: Template.count()]
+  
     }
 
-    def list (Integer max){
-        params.max = Math.min(max ?: 10, 100)
-        respond Template.list(params), model:[templateInstanceCount: Template.count()]
-    }
-    
-    
-    def changeEnabledState = {
-		def templateInstance = Template.get(params.id)
-		println "tpl" + templateInstance
-		if (!templateInstance){
-			flash.message = "Template not found"
-			redirect(action: "list")
-		}else {
-			 if(templateInstance.enabled == true){
-				  templateInstance.enabled = false
-				 flash.message = "${templateInstance.id} is disabled"
-				 }else{
-				 flash.message = "${templateInstance.id} is enabled"
-			    	templateInstance.enabled = true
-					}
-				 templateInstance.save(flush:true)
-				 println "changeStateTemplate"
-                                 redirect(action: "list")
-			 }
-    }
-    
     def show(Template templateInstance) {
         respond templateInstance
     }

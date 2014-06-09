@@ -12,7 +12,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
@@ -37,6 +37,26 @@
 					<span id="name-label" class="property-label"><g:message code="template.name.label" default="Name" /></span>
 					
 						<span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${templateInstance}" field="name"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${templateInstance?.previewTemplate}">
+				<li class="fieldcontain">
+					<span id="previewTemplate-label" class="property-label"><g:message code="template.previewTemplate.label" default="Preview Template" /></span>
+					
+						<span class="property-value" aria-labelledby="previewTemplate-label"><g:link controller="previewTemplate" action="show" id="${templateInstance?.previewTemplate?.id}">${templateInstance?.previewTemplate?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${templateInstance?.widgets}">
+				<li class="fieldcontain">
+					<span id="widgets-label" class="property-label"><g:message code="template.widgets.label" default="Widgets" /></span>
+					
+						<g:each in="${templateInstance.widgets}" var="w">
+						<span class="property-value" aria-labelledby="widgets-label"><g:link controller="widget" action="show" id="${w.id}">${w?.encodeAsHTML()}</g:link></span>
+						</g:each>
 					
 				</li>
 				</g:if>

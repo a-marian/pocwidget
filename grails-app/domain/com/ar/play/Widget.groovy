@@ -3,13 +3,16 @@ package com.ar.play
 class Widget {
        
    // String position;
-    Integer width;
-    Integer height;
+    //Integer width;
+   // Integer height;
     String videoId;
     String platform;
     String type;
+    boolean publishPreview;
+    boolean publishProd;
+    
 
-    static belongsTo = [template:Template]
+    static belongsTo = [template:Template, previewTemplate:PreviewTemplate]
    
     static constraints = {
         type inList : ["video", "facebook", "twitter", "spotify"]

@@ -21,7 +21,16 @@ This is a response and thus give its by done
 		  +primero debo ver en preview 
 		  +publicar en web si estoy de  acuerdo como se ve en preview
 		
-		
+	Yo creo el widget, lo habilito y puedo ver en el template
+	muestro el template
+	pregunto si este template tiene widgets
+	pregunto si uno de ellos es de video
+	en caso de ser de video a que plataforma pertenece
+	
+	<iframe src="//player.vimeo.com/video/97289605" width="500" height="200" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href="http://vimeo.com/97289605">Breaking The Cycle</a> from <a href="http://vimeo.com/themusicbed">The Music Bed</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+   	
+  
+  
   
   widget
   video

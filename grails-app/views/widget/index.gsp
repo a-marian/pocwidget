@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-            <meta name="layout" content="main">
-            <g:set var="entityName" value="${message(code: 'widget.label', default: 'Widget')}" />
-            <title><g:message code="default.list.label" args="[entityName]" /></title>
+		<meta name="layout" content="main">
+		<g:set var="entityName" value="${message(code: 'widget.label', default: 'Widget')}" />
+		<title><g:message code="default.list.label" args="[entityName]" /></title>
 	</head>
 	<body>
 		<a href="#list-widget" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -30,13 +30,11 @@
 					
 						<g:sortableColumn property="videoId" title="${message(code: 'widget.videoId.label', default: 'Video Id')}" />
 					
-						<g:sortableColumn property="height" title="${message(code: 'widget.height.label', default: 'Height')}" />
+						<th><g:message code="widget.previewtemplate.label" default="Previewtemplate" /></th>
 					
-						<th><g:message code="widget.template.label" default="Template" /></th>
+						<g:sortableColumn property="publishPreview" title="${message(code: 'widget.publishPreview.label', default: 'Publish Preview')}" />
 					
-						<g:sortableColumn property="width" title="${message(code: 'widget.width.label', default: 'Width')}" />
-                                                <th>Editar</th>
-                                                <th>Eliminar</th>
+						<g:sortableColumn property="publishProd" title="${message(code: 'widget.publishProd.label', default: 'Publish Prod')}" />
 					
 					</tr>
 				</thead>
@@ -44,21 +42,17 @@
 				<g:each in="${widgetInstanceList}" status="i" var="widgetInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td>${fieldValue(bean: widgetInstance, field: "type")}</td>
+						<td><g:link action="show" id="${widgetInstance.id}">${fieldValue(bean: widgetInstance, field: "type")}</g:link></td>
 					
 						<td>${fieldValue(bean: widgetInstance, field: "platform")}</td>
 					
 						<td>${fieldValue(bean: widgetInstance, field: "videoId")}</td>
 					
-						<td>${fieldValue(bean: widgetInstance, field: "height")}</td>
+						<td>${fieldValue(bean: widgetInstance, field: "previewTemplate")}</td>
 					
-						<td>${fieldValue(bean: widgetInstance, field: "template")}</td>
+						<td><g:formatBoolean boolean="${widgetInstance.publishPreview}" /></td>
 					
-						<td>${fieldValue(bean: widgetInstance, field: "width")}</td>
-                                                <td><g:link action="edit" id="${widgetInstance.id}">edit</g:link></td>
-					
-                                                <td><g:link action="delete" id="${widgetInstance.id}">delete</g:link></td>
-					
+						<td><g:formatBoolean boolean="${widgetInstance.publishProd}" /></td>
 					
 					</tr>
 				</g:each>

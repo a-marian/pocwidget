@@ -50,11 +50,29 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${widgetInstance?.height}">
+				<g:if test="${widgetInstance?.previewtemplate}">
 				<li class="fieldcontain">
-					<span id="height-label" class="property-label"><g:message code="widget.height.label" default="Height" /></span>
+					<span id="previewtemplate-label" class="property-label"><g:message code="widget.previewtemplate.label" default="Previewtemplate" /></span>
 					
-						<span class="property-value" aria-labelledby="height-label"><g:fieldValue bean="${widgetInstance}" field="height"/></span>
+						<span class="property-value" aria-labelledby="previewtemplate-label"><g:link controller="previewTemplate" action="show" id="${widgetInstance?.previewtemplate?.id}">${widgetInstance?.previewtemplate?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${widgetInstance?.publishPreview}">
+				<li class="fieldcontain">
+					<span id="publishPreview-label" class="property-label"><g:message code="widget.publishPreview.label" default="Publish Preview" /></span>
+					
+						<span class="property-value" aria-labelledby="publishPreview-label"><g:formatBoolean boolean="${widgetInstance?.publishPreview}" /></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${widgetInstance?.publishProd}">
+				<li class="fieldcontain">
+					<span id="publishProd-label" class="property-label"><g:message code="widget.publishProd.label" default="Publish Prod" /></span>
+					
+						<span class="property-value" aria-labelledby="publishProd-label"><g:formatBoolean boolean="${widgetInstance?.publishProd}" /></span>
 					
 				</li>
 				</g:if>
@@ -64,15 +82,6 @@
 					<span id="template-label" class="property-label"><g:message code="widget.template.label" default="Template" /></span>
 					
 						<span class="property-value" aria-labelledby="template-label"><g:link controller="template" action="show" id="${widgetInstance?.template?.id}">${widgetInstance?.template?.encodeAsHTML()}</g:link></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${widgetInstance?.width}">
-				<li class="fieldcontain">
-					<span id="width-label" class="property-label"><g:message code="widget.width.label" default="Width" /></span>
-					
-						<span class="property-value" aria-labelledby="width-label"><g:fieldValue bean="${widgetInstance}" field="width"/></span>
 					
 				</li>
 				</g:if>

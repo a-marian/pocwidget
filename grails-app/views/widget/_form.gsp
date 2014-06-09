@@ -29,12 +29,30 @@
 
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: widgetInstance, field: 'height', 'error')} required">
-	<label for="height">
-		<g:message code="widget.height.label" default="Height" />
+<div class="fieldcontain ${hasErrors(bean: widgetInstance, field: 'previewTemplate', 'error')} required">
+	<label for="previewTemplate">
+            <g:message code="widget.previewTemplate.label" default="PreviewTemplate" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:field name="height" type="number" value="${widgetInstance.height}" required=""/>
+	<g:select id="previewtemplate" name="previewTemplate.id" from="${com.ar.play.PreviewTemplate.list()}" optionKey="id" required="" value="${widgetInstance?.previewTemplate?.id}" class="many-to-one"/>
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: widgetInstance, field: 'publishPreview', 'error')} ">
+	<label for="publishPreview">
+		<g:message code="widget.publishPreview.label" default="Publish Preview" />
+		
+	</label>
+	<g:checkBox name="publishPreview" value="${widgetInstance?.publishPreview}" />
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: widgetInstance, field: 'publishProd', 'error')} ">
+	<label for="publishProd">
+		<g:message code="widget.publishProd.label" default="Publish Prod" />
+		
+	</label>
+	<g:checkBox name="publishProd" value="${widgetInstance?.publishProd}" />
 
 </div>
 
@@ -44,15 +62,6 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:select id="template" name="template.id" from="${com.ar.play.Template.list()}" optionKey="id" required="" value="${widgetInstance?.template?.id}" class="many-to-one"/>
-
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: widgetInstance, field: 'width', 'error')} required">
-	<label for="width">
-		<g:message code="widget.width.label" default="Width" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:field name="width" type="number" value="${widgetInstance.width}" required=""/>
 
 </div>
 
