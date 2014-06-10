@@ -16,31 +16,20 @@
 	<div class="background">
 		<div class="page">
 			<div class="header">
-				<a href="index.html" id="logo"><img src="images/logo.png" alt="logo"></a>
-				<ul>
-					<li>
-						<a href="news.html">News</a>
-					</li>
-					<li>
-						<a href="team.html">Team</a>
-					</li>
-					<li>
-						<a href="schedule.html">Schedule</a>
-					</li>
-					<li>
-						<a href="videos.html">Videos</a>
-					</li>
-					<li>
-						<a href="about.html">About</a>
-					</li>
-				</ul>
+				<a href="#" id="logo"><img src="../images/logo.png" alt="logo"></a>
+                                    <ul></ul>
 			</div>
 			<div class="body home">
 				<div>
 					<div class="featured">
-                                         
+                                          <g:each in="${youtubeWidgets}" status="i" var ="yw" >
+                                             <g:if test="${yw != null || yw.publishPreview == true}">
+                                                <youtube:video height="450" width="700" id="${yw.videoId}"/>
+                                           </g:if>
+                                           <g:else>
+                                           </g:else>
+                                           </g:each>
                                            
-					
 						<div>
 							<h2>We Are The <br> Champions</h2>
 							<p>

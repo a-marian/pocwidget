@@ -2,9 +2,6 @@ package com.ar.play
 
 class Widget {
        
-   // String position;
-    //Integer width;
-   // Integer height;
     String videoId;
     String platform;
     String type;

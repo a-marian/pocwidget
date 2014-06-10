@@ -8,6 +8,9 @@ class PreviewTemplate {
     static hasMany = [widget:Widget]
       
  static constraints = {
- 
+       name inList : ["templateOne", "templateTwo"]
+       
   }
+  
+   
 }

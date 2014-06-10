@@ -11,18 +11,44 @@ class TemplateController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index() {
-        def templateInstance = Template.findByEnabled(true)
-        if(templateInstance){
-             respond templateInstance
-        }
+        def template = Template.findByEnabled(true)
+        if (template){
+            def youtubeWidgets = Widget.findAllByTemplateAndPublishProd(template, true)
+            render(view: "index", model: [templateInstance:template, youtubeWidgets:youtubeWidgets])
+            }
        
        }
+       
+   
     
     def list(Integer max){
            params.max = Math.min(max ?: 10, 100)
         respond Template.list(params), model:[templateInstanceCount: Template.count()]
   
     }
+    
+    def changeEnabledState(Template template) {
+          if (template == null) {
+            notFound()
+            return
+          } else {
+		if(template.enabled == true){
+			  template.enabled = false
+                          flash.message = "${template.id} have not been chosen"
+                                 redirect (action:"index")
+		 }else{
+			 flash.message = "${template.id} have been chosen"
+		    	 template.enabled = true
+                         redirect (action:"index")
+		}
+		 template.save(flush:true)
+		 println "changeStatePV"
+	 }			
+    }
+    
+      def passToProd(Template templateInstance){
+          println "template" + templateInstance.name
+      }
 
     def show(Template templateInstance) {
         respond templateInstance

@@ -50,11 +50,10 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${widgetInstance?.previewtemplate}">
+				<g:if test="${widgetInstance?.previewTemplate}">
 				<li class="fieldcontain">
-					<span id="previewtemplate-label" class="property-label"><g:message code="widget.previewtemplate.label" default="Previewtemplate" /></span>
+					<span id="previewTemplate-label" class="property-label"><g:message code="widget.previewTemplate.label" default="PreviewTemplate" /></span>
 					
-						<span class="property-value" aria-labelledby="previewtemplate-label"><g:link controller="previewTemplate" action="show" id="${widgetInstance?.previewtemplate?.id}">${widgetInstance?.previewtemplate?.encodeAsHTML()}</g:link></span>
 					
 				</li>
 				</g:if>

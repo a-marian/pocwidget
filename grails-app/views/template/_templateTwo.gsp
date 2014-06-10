@@ -8,7 +8,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="../../css/${previewTemplateInstance?.name}.css" type="text/css">		
+        <link rel="stylesheet" href="../css/${templateInstance?.name}.css" type="text/css">		
         <title>Sample title</title>
     </head>
    <body>
@@ -36,7 +36,14 @@
 			</ul>
 		</div>
 		<div class="article">
-			<img src="images/great-hairstyle.jpg" alt="">
+			<g:each in="${youtubeWidgets}" status="i" var ="yw" >
+                                         <g:if test="${yw != null || yw.publishProd == true}">
+                                                <youtube:video height="100%" width="100%" id="${yw.videoId}"/>
+                                         </g:if>
+                                         <g:else>
+                                               <img src="../../images/great-hairstyle.jpg" alt="">
+                                         </g:else>
+                      </g:each>
 			<h1>Great hairstyle comes from the experts.</h1>
 		</div>
 	</div>

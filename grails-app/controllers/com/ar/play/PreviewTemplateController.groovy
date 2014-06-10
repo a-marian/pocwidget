@@ -14,25 +14,46 @@ class PreviewTemplateController {
         respond PreviewTemplate.list(params), model:[previewTemplateInstanceCount: PreviewTemplate.count()]
     }
     
+    
+    def configFrontend (Integer max){
+         params.max = Math.min(max ?: 10, 100)
+       render (view:'configFrontend', model:[previewTemplateInstance : PreviewTemplate.list(params)])
+    }
+    
+    def saveConfigFronted (String name){
+        println "namePV" + name
+        def previewTemplateInstance = PreviewTemplate.findByName(name)
+         if (previewTemplateInstance != null) {             
+                previewTemplateInstance.chosen = true
+                previewTemplateInstance.save flush:true
+                println "pv chosen " + previewTemplateInstance
+                redirect (controller: 'widget', action:'config', id:previewTemplateInstance.id)            
+                //redirect(action: "show", id: 4, params: [author: "Stephen King"])
+        }else{
+                notFound()
+                return
+        }
+        
+    }
+    
+    
     def changeEnabledState(PreviewTemplate pv) {
           if (pv == null) {
             notFound()
             return
           } else {
-			 if(pv.chosen == true){
-				  pv.chosen = false
-				 flash.message = "${pv.id} have not been chosen"
-                                  redirect (action:"index")
-				 }else{
-				 flash.message = "${pv.id} have been chosen"
-			    	 pv.chosen = true
+		if(pv.chosen == true){
+			  pv.chosen = false
+                          flash.message = "${pv.id} have not been chosen"
                                  redirect (action:"index")
-					}
-				 pv.save(flush:true)
-				 println "changeStatePV"
-			 }
-			
-		
+		 }else{
+			 flash.message = "${pv.id} have been chosen"
+		    	 pv.chosen = true
+                         redirect (action:"index")
+		}
+		 pv.save(flush:true)
+		 println "changeStatePV"
+	 }			
 		}
 
     def show(PreviewTemplate previewTemplateInstance) {
@@ -40,7 +61,12 @@ class PreviewTemplateController {
         render(view: "show", model: [previewTemplateInstance:previewTemplateInstance, youtubeWidgets:youtubeWidgets])
     }
     
+    def viewPreview(PreviewTemplate previewTemplateInstance){
+        println "preview" + previewTemplateInstance.name
+        
+    }
     
+ 
 
     def create() {
         respond new PreviewTemplate(params)
@@ -56,6 +82,13 @@ class PreviewTemplateController {
             respond previewTemplateInstance.errors, view:'create'
             return
         }
+        def pvnames = PreviewTemplate.findAllByName(previewTemplateInstance.name)
+         if (pvnames) {
+         //  flash.message = message(code: 'default.created.message', args: [message(code: 'previewTemplateInstance.label', default: 'PreviewTemplate'), previewTemplateInstance.id)
+           respond previewTemplateInstance.errors, view:'create'
+            return
+        }
+        previewTemplateInstance.chosen = false
         previewTemplateInstance.save flush:true
         def template = new Template()
         if (previewTemplateInstance){

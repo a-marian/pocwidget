@@ -1,7 +1,5 @@
 package com.ar.play
 
-
-
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
@@ -14,7 +12,37 @@ class WidgetController {
         params.max = Math.min(max ?: 10, 100)
         respond Widget.list(params), model:[widgetInstanceCount: Widget.count()]
     }
+    
+    def config(PreviewTemplate previewTemplateInstance){
+        println "pt"  + previewTemplateInstance.name
+        // respond new PreviewTemplate(previewTemplateInstance.params)
+        def templateInstance = Template.findByPreviewTemplate(previewTemplateInstance)
+       def widgets = Widget.findByPreviewTemplate(previewTemplateInstance)
+       render (view:'config', model: [widgets:widgets,previewTemplateInstance:previewTemplateInstance, templateInstance: templateInstance ])
+    }
 
+      def passToProd(Template template){
+         if (template == null) {
+            notFound()
+            return
+        }
+
+        if (template.hasErrors()) {
+            respond template.errors, view:'edit'
+            return
+        }
+        template.enabled = true
+        template.save flush:true
+
+        request.withFormat {
+            form multipartForm {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'Widget.label', default: 'Widget'), widgetInstance.id])
+                redirect (controller:"template",action:"index")
+            }
+            '*'{ respond widgetInstance, [status: OK] }
+        }
+     }
+   
     def show(Widget widgetInstance) {
         respond widgetInstance
     }
@@ -48,6 +76,33 @@ class WidgetController {
 
     def edit(Widget widgetInstance) {
         respond widgetInstance
+    }
+    
+     def editYoutube(Widget widgetInstance) {
+        respond widgetInstance
+    }
+
+       @Transactional
+    def updateYoutube(Widget widgetInstance) {
+        if (widgetInstance == null) {
+            notFound()
+            return
+        }
+
+        if (widgetInstance.hasErrors()) {
+            respond widgetInstance.errors, view:'edit'
+            return
+        }
+
+        widgetInstance.save flush:true
+
+        request.withFormat {
+            form multipartForm {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'Widget.label', default: 'Widget'), widgetInstance.id])
+                redirect (action:"config", id:widgetInstance.previewTemplate.id)
+            }
+            '*'{ respond widgetInstance, [status: OK] }
+        }
     }
 
     @Transactional

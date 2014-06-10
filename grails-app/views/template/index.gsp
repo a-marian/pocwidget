@@ -8,8 +8,10 @@
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 	</head>
 	<body>
-            
+            <g:if test="${templateInstance}">
 		<g:render template="${templateInstance?.name}"/>
-
+                </g:if>
+            <g:else>Template not config yet</g:else>
+            
 	</body>
 </html>
