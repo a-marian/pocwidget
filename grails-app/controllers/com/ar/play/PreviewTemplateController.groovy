@@ -3,6 +3,7 @@ package com.ar.play
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+import com.ar.play.Template
 
 @Transactional(readOnly = true)
 class PreviewTemplateController {
@@ -15,27 +16,75 @@ class PreviewTemplateController {
     }
     
     
-    def configFrontend (Integer max){
-         params.max = Math.min(max ?: 10, 100)
-       render (view:'configFrontend', model:[previewTemplateInstance : PreviewTemplate.list(params)])
+   /* def configFrontend (){
+        respond new PreviewTemplate(params)
     }
     
     def saveConfigFronted (String name){
         println "namePV" + name
+        if (name == ""){
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'previewTemplateInstance.label', default: 'PreviewTemplate'), params.id])
+            redirect action: "configFrontend"
+            return
+        }
         def previewTemplateInstance = PreviewTemplate.findByName(name)
          if (previewTemplateInstance != null) {             
                 previewTemplateInstance.chosen = true
                 previewTemplateInstance.save flush:true
                 println "pv chosen " + previewTemplateInstance
-                redirect (controller: 'widget', action:'config', id:previewTemplateInstance.id)            
+                redirect (action:'config', id:previewTemplateInstance.id)            
                 //redirect(action: "show", id: 4, params: [author: "Stephen King"])
         }else{
-                notFound()
-                return
+              def pvt = new PreviewTemplate()
+                pvt.name = name
+                pvt.chosen = true
+                pvt.template = new Template(name:name, enabled:false)
+                pvt.save flush:true
+               println "pv chosen " + pvt
+               println "template" + pvt.template.name
+                 redirect ( action:'config', id:pvt.id)
+               
         }
         
     }
     
+        
+    def config(PreviewTemplate previewTemplateInstance){
+        println "pt"  + previewTemplateInstance.name
+        // respond new PreviewTemplate(previewTemplateInstance.params)
+        //def templateInstance = Template.findByPreviewTemplate(previewTemplateInstance)
+       def widgets = Widget.findByPreviewTemplate(previewTemplateInstance)
+       render (view:'config', model: [widgets:widgets,previewTemplateInstance:previewTemplateInstance])
+    }
+
+    def addWidget(PreviewTemplate previewTemplateInstance){
+        if(previewTemplateInstance){
+            def widgetInstance = new Widget()
+            render (view:'addWidget', model: [widgetInstance:widgetInstance, previewTemplateInstance:previewTemplateInstance])
+        }
+        
+    }
+
+    
+      def passToProd(PreviewTemplate previewTemplateInstance){
+          println "pasando a produccion"  + previewTemplateInstance.name 
+         if (previewTemplateInstance == null) {
+              println "no pasa naranja"
+            notFound()
+            return
+        }
+        previewTemplateInstance?.template?.enabled = true
+        previewTemplateInstance.save flush:true
+           println "template for production" +   previewTemplateInstance.template.name
+        /*def templateInstance = Template.findByPreviewTemplate(previewTemplateInstance)
+        println "template encontrado" + templateInstance.name
+        
+          if(templateInstance){
+             templateInstance.enabled = true            
+             templateInstance.save flush:true
+             println "template for production" + templateInstance.name
+             redirect (controller: "template", action:"index" ) }*/
+        
     
     def changeEnabledState(PreviewTemplate pv) {
           if (pv == null) {
@@ -65,10 +114,8 @@ class PreviewTemplateController {
         println "preview" + previewTemplateInstance.name
         
     }
-    
- 
-
-    def create() {
+   
+     def create() {
         respond new PreviewTemplate(params)
     }
 

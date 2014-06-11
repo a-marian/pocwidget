@@ -6,11 +6,11 @@ class PreviewTemplate {
     String name
     
     static hasMany = [widget:Widget]
-      
+    static belongsTo = [template:Template]
+    
  static constraints = {
        name inList : ["templateOne", "templateTwo"]
-       
-  }
+    }
   
    
 }

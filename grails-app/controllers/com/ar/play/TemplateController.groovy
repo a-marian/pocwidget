@@ -19,6 +19,79 @@ class TemplateController {
        
        }
        
+    
+     def configFrontend (){
+        respond new Template(params)
+    }
+    
+    def saveConfigFronted (String name){
+        println "namePV" + name
+        if (name == ""){
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'templateInstance.label', default: 'Template'), params.id])
+            redirect action: "configFrontend"
+            return
+        }
+        def templateInstance = Template.findByName(name)
+         if (templateInstance != null) {             
+                templateInstance.enabled = false
+                templateInstance.save flush:true
+                println "pv chosen " + templateInstance
+                redirect (action:'config', id:templateInstance.id)            
+                //redirect(action: "show", id: 4, params: [author: "Stephen King"])
+        }else{
+              def tpl = new Template()
+                tpl.name = name
+                tpl.enabled = false
+                tpl.previewTemplate = new PreviewTemplate(name:name, chosen:true)
+                tpl.save flush:true
+               println "pv chosen " + tpl
+               println "template" + tpl.previewTemplate.name
+                 redirect ( action:'config', id:tpl.id)
+               
+        }
+        
+    }
+    
+        
+    def config(Template templateInstance){
+        println "pt"  + templateInstance.name
+        // respond new PreviewTemplate(previewTemplateInstance.params)
+        //def templateInstance = Template.findByPreviewTemplate(previewTemplateInstance)
+       def widgets = Widget.findByTemplate(templateInstance)
+       render (view:'config', model: [widgets:widgets,templateInstance:templateInstance])
+    }
+
+    def addWidget(Template templateInstance){
+        if(templateInstance){
+            def widgetInstance = new Widget()
+            render (view:'addWidget', model: [widgetInstance:widgetInstance, templateInstance:templateInstance])
+        }
+        
+    }
+
+    
+      def passToProd(Template templateInstance){
+          println "pasando a produccion"  + templateInstance.name 
+         if (templateInstance == null) {
+              println "no pasa naranja"
+            notFound()
+            return
+        }
+         def templateEnabled = Template.findAllByEnabled(true)
+              templateEnabled?.each { tpl ->
+          	tpl.enabled = false
+                tpl.save(flush:true)
+			} 
+          templateInstance.enabled = true
+          templateInstance.save flush:true
+          //poner en false los demas templates                     
+              
+			
+          println "template for production" + templateInstance.name
+        redirect (controller: "template", action:"index")
+        }
+    
+    
    
     
     def list(Integer max){
@@ -46,10 +119,7 @@ class TemplateController {
 	 }			
     }
     
-      def passToProd(Template templateInstance){
-          println "template" + templateInstance.name
-      }
-
+ 
     def show(Template templateInstance) {
         respond templateInstance
     }

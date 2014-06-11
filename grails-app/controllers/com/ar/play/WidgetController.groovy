@@ -21,6 +21,15 @@ class WidgetController {
        render (view:'config', model: [widgets:widgets,previewTemplateInstance:previewTemplateInstance, templateInstance: templateInstance ])
     }
 
+    def addWidget(PreviewTemplate previewTemplateInstance){
+        if(previewTemplateInstance){
+            def widgetInstance = new Widget()
+            render (view:'addWidget', model: [widgetInstance:widgetInstance, previewTemplateInstance:previewTemplateInstance])
+        }
+        
+    }
+   
+    
       def passToProd(Template template){
          if (template == null) {
             notFound()
@@ -30,9 +39,9 @@ class WidgetController {
         if (template.hasErrors()) {
             respond template.errors, view:'edit'
             return
-        }
-        template.enabled = true
-        template.save flush:true
+            }
+            template.enabled = true
+            template.save flush:true
 
         request.withFormat {
             form multipartForm {

@@ -17,6 +17,13 @@ class Template {
     PreviewTemplate previewTemplate
     
     static hasMany = [widgets:Widget]
-	
+    
+    static constraints = {
+       name inList : ["templateOne", "templateTwo"]
+    }
+    static mapping = {
+      previewTemplate  cascade: 'all'
+   
+    }
 }
 
